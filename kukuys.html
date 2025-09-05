@@ -6,8 +6,8 @@
   <title>KUKUYS PUSTAHAN NIGHTS</title>
   <style>
     body {
-      background-color: #f9f9f9;
-      color: #222;
+      background-color: #1c2c54;
+      color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 20px;
       display: flex;
@@ -24,23 +24,30 @@
       margin-bottom: 40px;
     }
 
+    header a.logo-link {
+      display: inline-block;
+    }
+
     header img.logo {
       height: 40px;
       filter: none;
+      cursor: pointer;
     }
 
     header img.kick-logo {
       height: 60px;
+      cursor: pointer;
     }
 
     header h1 {
       color: #7B61FF;
       font-size: 2.5rem;
       margin: 0;
+      user-select: none;
     }
 
     .controls {
-      background-color: #fff;
+      background-color: transparent;
       padding: 20px;
       border-radius: 12px;
       margin-bottom: 20px;
@@ -50,17 +57,29 @@
       gap: 15px;
       max-width: 900px;
       width: 100%;
-      box-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.3);
+    }
+
+    .controls label,
+    .controls input,
+    .controls select,
+    .controls button {
+      color: #fff;
+      font-weight: 600;
     }
 
     .controls input,
     .controls select {
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      color: #222;
+      background-color: #2e3b70;
+      border: 1px solid #555aa2;
       padding: 8px 12px;
       border-radius: 8px;
       font-size: 1rem;
+      color: #fff;
+    }
+
+    .controls input::placeholder {
+      color: #bbb;
     }
 
     .controls button {
@@ -84,35 +103,36 @@
       border-collapse: separate;
       border-spacing: 0 12px;
       margin-bottom: 20px;
-      background: white;
+      background: rgba(255 255 255 / 0.1);
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(123, 97, 255, 0.15);
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.3);
+      color: #fff;
     }
 
     th, td {
       padding: 14px 16px;
       text-align: center;
-      color: #222;
+      color: #fff;
     }
 
     th {
       background-color: #7B61FF;
-      color: white;
       font-weight: 700;
       border-radius: 12px;
+      user-select: none;
     }
 
     tbody tr {
-      background-color: #fefefe;
+      background-color: rgba(255 255 255 / 0.05);
       border-radius: 12px;
       box-shadow: 0 0 6px rgba(123, 97, 255, 0.1);
     }
 
     .edit-input {
       width: 80px;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      color: #222;
+      background-color: #2e3b70;
+      border: 1px solid #555aa2;
+      color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
       font-size: 0.9rem;
@@ -144,24 +164,29 @@
       color: #7B61FF;
       margin-top: 30px;
       padding: 0 60px;
-      background: white;
+      background: rgba(255 255 255 / 0.1);
       border-radius: 12px;
-      box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
+      box-shadow: 0 0 12px rgba(123, 97, 255, 0.3);
       user-select: none;
     }
 
     .total-bet-item {
       flex: 1;
       text-align: center;
+      color: #fff;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Stake_logo.svg" class="logo" alt="Stake Logo" />
+    <a href="https://stake.games/registration?entry=21RELOADEN&offer=GABBI" target="_blank" rel="noopener noreferrer" class="logo-link">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Stake_logo.svg" class="logo" alt="Stake Logo" />
+    </a>
     <h1>KUKUYS PUSTAHAN NIGHTS</h1>
-    <img src="https://kick.com/favicon.ico" class="kick-logo" alt="Kick Logo" />
+    <a href="https://kick.com/gabbidoto" target="_blank" rel="noopener noreferrer" class="logo-link">
+      <img src="https://kick.com/favicon.ico" class="kick-logo" alt="Kick Logo" />
+    </a>
   </header>
 
   <div class="controls">
@@ -204,42 +229,113 @@
     <tbody></tbody>
   </table>
 
+  <div class="controls">
+    <h3 style="width: 100%; margin-bottom: 10px; user-select:none;">Side Bets</h3>
+    <input type="text" id="sideBettorName" placeholder="Bettor Name" />
+    <select id="sideBetType">
+      <option value="first10kills">First 10 Kills</option>
+      <option value="firstBlood">First Blood</option>
+    </select>
+    <select id="sideBetTeam"></select>
+    <input type="number" id="sideBetAmount" placeholder="Bet Amount" min="1" />
+    <select id="sideBetStatus">
+      <option value="unpaid">Unpaid</option>
+      <option value="paid">Paid</option>
+    </select>
+    <button onclick="addSideBet()">Add Side Bet</button>
+  </div>
+
+  <table id="sideBetsTable">
+    <thead>
+      <tr>
+        <th>Bettor</th>
+        <th>Side Bet Type</th>
+        <th>Team</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Winnings</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="controls" style="gap: 10px; max-width: 900px;">
+    <label for="first10killsWinner" style="user-select:none;">First 10 Kills Winner:</label>
+    <select id="first10killsWinner"></select>
+    <button onclick="declareSideWinner('first10kills')">Declare</button>
+
+    <label for="firstBloodWinner" style="user-select:none;">First Blood Winner:</label>
+    <select id="firstBloodWinner"></select>
+    <button onclick="declareSideWinner('firstBlood')">Declare</button>
+  </div>
+
   <div class="total-bets">
     <div class="total-bet-item" id="totalBetTeam1">Team 1 Total Bet: 0</div>
     <div class="total-bet-item" id="totalBetDiff">Difference: 0</div>
     <div class="total-bet-item" id="totalBetTeam2">Team 2 Total Bet: 0</div>
   </div>
 
+  <div class="total-bets" style="margin-top: 10px;">
+    <div class="total-bet-item" id="totalSideBets">Total Side Bets: 0</div>
+    <div class="total-bet-item" id="totalMoneyInvolved">Total Money Involved: 0</div>
+  </div>
+
   <script>
     let bets = [];
+    let sideBets = [];
     let team1 = "";
     let team2 = "";
     let matchWinner = "";
+    let sideWinners = {
+      first10kills: "",
+      firstBlood: ""
+    };
 
     function setMatchTeams() {
       team1 = document.getElementById("team1").value.trim();
       team2 = document.getElementById("team2").value.trim();
 
-      if (!team1 || !team2) {
-        alert("Please enter both team names.");
-        return;
-      }
+      if (!team1 || !team2) return;
 
       const betTeamSelect = document.getElementById("betTeam");
       const winnerSelect = document.getElementById("matchWinner");
+      const sideBetTeamSelect = document.getElementById("sideBetTeam");
+      const first10killsWinnerSelect = document.getElementById("first10killsWinner");
+      const firstBloodWinnerSelect = document.getElementById("firstBloodWinner");
 
-      betTeamSelect.innerHTML = '';
-      winnerSelect.innerHTML = '';
+      [betTeamSelect, winnerSelect, sideBetTeamSelect, first10killsWinnerSelect, firstBloodWinnerSelect].forEach(sel => sel.innerHTML = '');
 
       [team1, team2].forEach(team => {
-        let opt = document.createElement("option");
-        opt.value = team;
-        opt.textContent = team;
-        betTeamSelect.appendChild(opt);
-        winnerSelect.appendChild(opt.cloneNode(true));
+        let opt1 = document.createElement("option");
+        opt1.value = team;
+        opt1.textContent = team;
+        betTeamSelect.appendChild(opt1);
+
+        let opt2 = document.createElement("option");
+        opt2.value = team;
+        opt2.textContent = team;
+        winnerSelect.appendChild(opt2);
+
+        let opt3 = document.createElement("option");
+        opt3.value = team;
+        opt3.textContent = team;
+        sideBetTeamSelect.appendChild(opt3);
+
+        let opt4 = document.createElement("option");
+        opt4.value = team;
+        opt4.textContent = team;
+        first10killsWinnerSelect.appendChild(opt4);
+
+        let opt5 = document.createElement("option");
+        opt5.value = team;
+        opt5.textContent = team;
+        firstBloodWinnerSelect.appendChild(opt5);
       });
 
       updateTable();
+      updateSideTable();
+      updateTotals();
     }
 
     function addBet() {
@@ -248,96 +344,218 @@
       const amount = parseFloat(document.getElementById("betAmount").value);
       const status = document.getElementById("betStatus").value;
 
-      if (!name || !team || amount <= 0) {
-        alert("Invalid bet details.");
+      if (!name || !team || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid bet details.");
         return;
       }
 
       bets.push({ name, team, amount, status, winnings: 0 });
+      clearBetInputs();
       updateTable();
+      updateTotals();
     }
 
-    function declareWinner() {
-      matchWinner = document.getElementById("matchWinner").value;
-      calculateWinnings();
-      updateTable();
-    }
+    function addSideBet() {
+      const name = document.getElementById("sideBettorName").value.trim();
+      const betType = document.getElementById("sideBetType").value;
+      const team = document.getElementById("sideBetTeam").value;
+      const amount = parseFloat(document.getElementById("sideBetAmount").value);
+      const status = document.getElementById("sideBetStatus").value;
 
-    function calculateWinnings() {
-      let totalWinner = 0, totalLoser = 0;
-      bets.forEach(bet => {
-        if (bet.team === matchWinner) totalWinner += bet.amount;
-        else totalLoser += bet.amount;
-      });
+      if (!name || !betType || !team || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid side bet details.");
+        return;
+      }
 
-      const ratio = totalWinner > 0 ? totalLoser / totalWinner : 0;
-      bets.forEach(bet => {
-        bet.winnings = (bet.team === matchWinner) ? bet.amount * (1 + ratio) : 0;
-      });
-    }
-
-    function calculateOdds(total1, total2) {
-      const odds1 = total1 > 0 ? (total2 / total1) : 1;
-      const odds2 = total2 > 0 ? (total1 / total2) : 1;
-      return [odds1, odds2];
+      sideBets.push({ name, betType, team, amount, status, winnings: 0 });
+      clearSideBetInputs();
+      updateSideTable();
+      updateTotals();
     }
 
     function updateTable() {
       const tbody = document.querySelector("#betsTable tbody");
       tbody.innerHTML = "";
 
-      let total1 = 0, total2 = 0;
+      let totalTeam1 = bets.filter(b => b.team === team1).reduce((a, b) => a + b.amount, 0);
+      let totalTeam2 = bets.filter(b => b.team === team2).reduce((a, b) => a + b.amount, 0);
 
-      bets.forEach(bet => {
-        if (bet.team === team1) total1 += bet.amount;
-        if (bet.team === team2) total2 += bet.amount;
-      });
+      bets.forEach((bet, i) => {
+        let odds = 1;
+        if (bet.team === team1 && totalTeam1 > 0) {
+          odds = totalTeam2 / totalTeam1 || 1;
+        } else if (bet.team === team2 && totalTeam2 > 0) {
+          odds = totalTeam1 / totalTeam2 || 1;
+        }
+        odds = Math.max(1, odds);
 
-      const [odds1, odds2] = calculateOdds(total1, total2);
+        let winnings = 0;
+        if (matchWinner === bet.team && bet.status === "paid") {
+          winnings = bet.amount * odds;
+          bet.winnings = winnings;
+        } else {
+          bet.winnings = 0;
+        }
 
-      bets.forEach((bet, index) => {
-        const odds = bet.team === team1 ? odds1 : odds2;
-        let row = document.createElement("tr");
-        row.innerHTML = `
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
           <td>${bet.name}</td>
           <td>${bet.team}</td>
           <td>${odds.toFixed(2)}</td>
-          <td><input type="number" value="${bet.amount}" onchange="updateAmount(${index}, this.value)" class="edit-input" /></td>
-          <td>
-            <select onchange="updateStatus(${index}, this.value)">
-              <option value="unpaid" ${bet.status === "unpaid" ? "selected" : ""}>Unpaid</option>
-              <option value="paid" ${bet.status === "paid" ? "selected" : ""}>Paid</option>
-            </select>
-          </td>
+          <td>${bet.amount.toFixed(2)}</td>
+          <td>${bet.status}</td>
           <td>${bet.winnings.toFixed(2)}</td>
-          <td><button onclick="removeBet(${index})" class="btn-small">Delete</button></td>
+          <td>
+            <button class="btn-small" onclick="editBet(${i})">Edit</button>
+            <button class="btn-small" onclick="deleteBet(${i})">Delete</button>
+          </td>
         `;
-        tbody.appendChild(row);
+        tbody.appendChild(tr);
       });
 
-      document.getElementById("totalBetTeam1").textContent = team1 ? `${team1} Total Bet: ${total1.toFixed(2)}` : '';
-      document.getElementById("totalBetTeam2").textContent = team2 ? `${team2} Total Bet: ${total2.toFixed(2)}` : '';
-      document.getElementById("totalBetDiff").textContent = `Difference: ${(Math.abs(total1 - total2)).toFixed(2)}`;
+      updateTotals();
     }
 
-    function removeBet(index) {
-      bets.splice(index, 1);
+    function updateSideTable() {
+      const tbody = document.querySelector("#sideBetsTable tbody");
+      tbody.innerHTML = "";
+
+      sideBets.forEach((bet, i) => {
+        let odds = 2;
+        let winnings = 0;
+        if (sideWinners[bet.betType] === bet.team && bet.status === "paid") {
+          winnings = bet.amount * odds;
+          bet.winnings = winnings;
+        } else {
+          bet.winnings = 0;
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${bet.name}</td>
+          <td>${bet.betType === 'first10kills' ? 'First 10 Kills' : 'First Blood'}</td>
+          <td>${bet.team}</td>
+          <td>${bet.amount.toFixed(2)}</td>
+          <td>${bet.status}</td>
+          <td>${bet.winnings.toFixed(2)}</td>
+          <td>
+            <button class="btn-small" onclick="editSideBet(${i})">Edit</button>
+            <button class="btn-small" onclick="deleteSideBet(${i})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateTotals();
+    }
+
+    function declareWinner() {
+      const winner = document.getElementById("matchWinner").value;
+      if (!winner) return;
+      matchWinner = winner;
       updateTable();
     }
 
-    function updateAmount(index, value) {
-      const newVal = parseFloat(value);
-      if (!isNaN(newVal) && newVal > 0) {
-        bets[index].amount = newVal;
-        if (matchWinner) calculateWinnings();
+    function declareSideWinner(betType) {
+      let selectId = betType === "first10kills" ? "first10killsWinner" : "firstBloodWinner";
+      const winner = document.getElementById(selectId).value;
+      if (!winner) return;
+      sideWinners[betType] = winner;
+      updateSideTable();
+    }
+
+    function editBet(index) {
+      const bet = bets[index];
+      const newName = prompt("Edit bettor name:", bet.name);
+      if (newName === null) return;
+      const newTeam = prompt("Edit team:", bet.team);
+      if (newTeam === null) return;
+      if (newTeam !== team1 && newTeam !== team2) {
+        alert("Team must be one of the match teams.");
+        return;
+      }
+      const newAmount = prompt("Edit amount:", bet.amount);
+      if (newAmount === null || isNaN(parseFloat(newAmount)) || parseFloat(newAmount) <= 0) return;
+      const newStatus = prompt("Edit status (paid/unpaid):", bet.status);
+      if (newStatus === null || (newStatus !== "paid" && newStatus !== "unpaid")) return;
+
+      bets[index] = {
+        name: newName.trim(),
+        team: newTeam,
+        amount: parseFloat(newAmount),
+        status: newStatus,
+        winnings: 0
+      };
+      updateTable();
+    }
+
+    function deleteBet(index) {
+      if (confirm("Are you sure you want to delete this bet?")) {
+        bets.splice(index, 1);
         updateTable();
       }
     }
 
-    function updateStatus(index, value) {
-      bets[index].status = value;
+    function editSideBet(index) {
+      const bet = sideBets[index];
+      const newName = prompt("Edit bettor name:", bet.name);
+      if (newName === null) return;
+      const newBetType = prompt("Edit side bet type (first10kills/firstBlood):", bet.betType);
+      if (newBetType === null || (newBetType !== "first10kills" && newBetType !== "firstBlood")) return;
+      const newTeam = prompt("Edit team:", bet.team);
+      if (newTeam === null) return;
+      if (newTeam !== team1 && newTeam !== team2) {
+        alert("Team must be one of the match teams.");
+        return;
+      }
+      const newAmount = prompt("Edit amount:", bet.amount);
+      if (newAmount === null || isNaN(parseFloat(newAmount)) || parseFloat(newAmount) <= 0) return;
+      const newStatus = prompt("Edit status (paid/unpaid):", bet.status);
+      if (newStatus === null || (newStatus !== "paid" && newStatus !== "unpaid")) return;
+
+      sideBets[index] = {
+        name: newName.trim(),
+        betType: newBetType,
+        team: newTeam,
+        amount: parseFloat(newAmount),
+        status: newStatus,
+        winnings: 0
+      };
+      updateSideTable();
+    }
+
+    function deleteSideBet(index) {
+      if (confirm("Are you sure you want to delete this side bet?")) {
+        sideBets.splice(index, 1);
+        updateSideTable();
+      }
+    }
+
+    function updateTotals() {
+      let totalTeam1 = bets.filter(b => b.team === team1).reduce((a, b) => a + b.amount, 0);
+      let totalTeam2 = bets.filter(b => b.team === team2).reduce((a, b) => a + b.amount, 0);
+      let diff = Math.abs(totalTeam1 - totalTeam2);
+      let totalSide = sideBets.reduce((a,b) => a + b.amount, 0);
+      let totalMoney = totalTeam1 + totalTeam2 + totalSide;
+
+      document.getElementById("totalBetTeam1").textContent = `Team 1 Total Bet: ${totalTeam1.toFixed(2)}`;
+      document.getElementById("totalBetTeam2").textContent = `Team 2 Total Bet: ${totalTeam2.toFixed(2)}`;
+      document.getElementById("totalBetDiff").textContent = `Difference: ${diff.toFixed(2)}`;
+      document.getElementById("totalSideBets").textContent = `Total Side Bets: ${totalSide.toFixed(2)}`;
+      document.getElementById("totalMoneyInvolved").textContent = `Total Money Involved: ${totalMoney.toFixed(2)}`;
+    }
+
+    function clearBetInputs() {
+      document.getElementById("bettorName").value = "";
+      document.getElementById("betAmount").value = "";
+      document.getElementById("betStatus").value = "unpaid";
+    }
+
+    function clearSideBetInputs() {
+      document.getElementById("sideBettorName").value = "";
+      document.getElementById("sideBetAmount").value = "";
+      document.getElementById("sideBetStatus").value = "unpaid";
     }
   </script>
-
 </body>
 </html>
