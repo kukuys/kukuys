@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KUKUYS PUSTAHAN NIGHTS</title>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      color: #222;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    header img.logo {
+      height: 40px;
+      filter: none;
+    }
+
+    header img.kick-logo {
+      height: 60px;
+    }
+
+    header h1 {
+      color: #7B61FF;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    .controls {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.2);
+    }
+
+    .controls input,
+    .controls select {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      color: #222;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .controls button {
+      background-color: #7B61FF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    .controls button:hover {
+      background-color: #5b46c3;
+    }
+
+    table {
+      width: 100%;
+      max-width: 900px;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(123, 97, 255, 0.15);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: center;
+      color: #222;
+    }
+
+    th {
+      background-color: #7B61FF;
+      color: white;
+      font-weight: 700;
+      border-radius: 12px;
+    }
+
+    tbody tr {
+      background-color: #fefefe;
+      border-radius: 12px;
+      box-shadow: 0 0 6px rgba(123, 97, 255, 0.1);
+    }
+
+    .edit-input {
+      width: 80px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      color: #222;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .btn-small {
+      background-color: #7B61FF;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+    .btn-small:hover {
+      background-color: #5b46c3;
+    }
+
+    .total-bets {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #7B61FF;
+      margin-top: 30px;
+      padding: 0 60px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(123, 97, 255, 0.15);
+      user-select: none;
+    }
+
+    .total-bet-item {
+      flex: 1;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://stake.com/assets/images/logo-stake-purple.svg" class="logo" alt="Stake Logo" />
+    <h1>KUKUYS PUSTAHAN NIGHTS</h1>
+    <img src="https://kick.com/favicon.ico" class="kick-logo" alt="Kick Logo" />
+  </header>
+
+  <div class="controls">
+    <label for="team1">Team 1:</label>
+    <input type="text" id="team1" placeholder="Enter Team 1" />
+    <label for="team2">Team 2:</label>
+    <input type="text" id="team2" placeholder="Enter Team 2" />
+    <button onclick="setMatchTeams()">Set Match</button>
+  </div>
+
+  <div class="controls">
+    <input type="text" id="bettorName" placeholder="Bettor Name" />
+    <select id="betTeam"></select>
+    <input type="number" id="betAmount" placeholder="Bet Amount" min="1" />
+    <select id="betStatus">
+      <option value="unpaid">Unpaid</option>
+      <option value="paid">Paid</option>
+    </select>
+    <button onclick="addBet()">Add Bet</button>
+  </div>
+
+  <div class="controls">
+    <label for="matchWinner">Winner:</label>
+    <select id="matchWinner"></select>
+    <button onclick="declareWinner()">Declare Winner</button>
+  </div>
+
+  <table id="betsTable">
+    <thead>
+      <tr>
+        <th>Bettor</th>
+        <th>Team</th>
+        <th>Odds</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Winnings</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="total-bets">
+    <div class="total-bet-item" id="totalBetTeam1">Team 1 Total Bet: 0</div>
+    <div class="total-bet-item" id="totalBetDiff">Difference: 0</div>
+    <div class="total-bet-item" id="totalBetTeam2">Team 2 Total Bet: 0</div>
+  </div>
+
+  <script>
+    let bets = [];
+    let team1 = "";
+    let team2 = "";
+    let matchWinner = "";
+
+    function setMatchTeams() {
+      team1 = document.getElementById("team1").value.trim();
+      team2 = document.getElementById("team2").value.trim();
+
+      if (!team1 || !team2) {
+        alert("Please enter both team names.");
+        return;
+      }
+
+      const betTeamSelect = document.getElementById("betTeam");
+      const winnerSelect = document.getElementById("matchWinner");
+
+      betTeamSelect.innerHTML = '';
+      winnerSelect.innerHTML = '';
+
+      [team1, team2].forEach(team => {
+        let opt = document.createElement("option");
+        opt.value = team;
+        opt.textContent = team;
+        betTeamSelect.appendChild(opt);
+        winnerSelect.appendChild(opt.cloneNode(true));
+      });
+
+      updateTable();
+    }
+
+    function addBet() {
+      const name = document.getElementById("bettorName").value.trim();
+      const team = document.getElementById("betTeam").value;
+      const amount = parseFloat(document.getElementById("betAmount").value);
+      const status = document.getElementById("betStatus").value;
+
+      if (!name || !team || amount <= 0) {
+        alert("Invalid bet details.");
+        return;
+      }
+
+      bets.push({ name, team, amount, status, winnings: 0 });
+      updateTable();
+    }
+
+    function declareWinner() {
+      matchWinner = document.getElementById("matchWinner").value;
+      calculateWinnings();
+      updateTable();
+    }
+
+    function calculateWinnings() {
+      let totalWinner = 0, totalLoser = 0;
+      bets.forEach(bet => {
+        if (bet.team === matchWinner) totalWinner += bet.amount;
+        else totalLoser += bet.amount;
+      });
+
+      const ratio = totalWinner > 0 ? totalLoser / totalWinner : 0;
+      bets.forEach(bet => {
+        bet.winnings = (bet.team === matchWinner) ? bet.amount * (1 + ratio) : 0;
+      });
+    }
+
+    function calculateOdds(total1, total2) {
+      const odds1 = total1 > 0 ? (total2 / total1) : 1;
+      const odds2 = total2 > 0 ? (total1 / total2) : 1;
+      return [odds1, odds2];
+    }
+
+    function updateTable() {
+      const tbody = document.querySelector("#betsTable tbody");
+      tbody.innerHTML = "";
+
+      let total1 = 0, total2 = 0;
+
+      bets.forEach(bet => {
+        if (bet.team === team1) total1 += bet.amount;
+        if (bet.team === team2) total2 += bet.amount;
+      });
+
+      const [odds1, odds2] = calculateOdds(total1, total2);
+
+      bets.forEach((bet, index) => {
+        const odds = bet.team === team1 ? odds1 : odds2;
+        let row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${bet.name}</td>
+          <td>${bet.team}</td>
+          <td>${odds.toFixed(2)}</td>
+          <td><input type="number" value="${bet.amount}" onchange="updateAmount(${index}, this.value)" class="edit-input" /></td>
+          <td>
+            <select onchange="updateStatus(${index}, this.value)">
+              <option value="unpaid" ${bet.status === "unpaid" ? "selected" : ""}>Unpaid</option>
+              <option value="paid" ${bet.status === "paid" ? "selected" : ""}>Paid</option>
+            </select>
+          </td>
+          <td>${bet.winnings.toFixed(2)}</td>
+          <td><button onclick="removeBet(${index})" class="btn-small">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById("totalBetTeam1").textContent = team1 ? `${team1} Total Bet: ${total1.toFixed(2)}` : '';
+      document.getElementById("totalBetTeam2").textContent = team2 ? `${team2} Total Bet: ${total2.toFixed(2)}` : '';
+      document.getElementById("totalBetDiff").textContent = `Difference: ${(Math.abs(total1 - total2)).toFixed(2)}`;
+    }
+
+    function removeBet(index) {
+      bets.splice(index, 1);
+      updateTable();
+    }
+
+    function updateAmount(index, value) {
+      const newVal = parseFloat(value);
+      if (!isNaN(newVal) && newVal > 0) {
+        bets[index].amount = newVal;
+        if (matchWinner) calculateWinnings();
+        updateTable();
+      }
+    }
+
+    function updateStatus(index, value) {
+      bets[index].status = value;
+    }
+  </script>
+
+</body>
+</html>
